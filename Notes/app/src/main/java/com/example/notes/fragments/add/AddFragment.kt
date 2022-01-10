@@ -44,7 +44,7 @@ class AddFragment : Fragment() {
                     "Note is empty, please fill in something to save", Toast.LENGTH_LONG).show()
             }
             else{
-                val note = Note(noteText = noteText.text.toString())
+                val note = Note(noteText = noteText.text.toString().trim())
                 mNoteViewModel.insert(note)
                 Toast.makeText(requireContext(), "Added note", Toast.LENGTH_SHORT).show()
 

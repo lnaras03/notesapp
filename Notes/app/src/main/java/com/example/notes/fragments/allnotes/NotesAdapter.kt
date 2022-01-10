@@ -4,14 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ListAdapter
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.notes.R
 import com.example.notes.data.Note
 
-class NotesAdapter: RecyclerView.Adapter<NotesAdapter.ViewHolder>()  {
+//class NotesAdapter: RecyclerView.Adapter<NotesAdapter.ViewHolder>()  {
+class NotesAdapter: androidx.recyclerview.widget.ListAdapter<Note, NotesAdapter.ViewHolder>(DiffCallback())  {
 
-    private var notesList = emptyList<Note>()
+//    private var notesList = emptyList<Note>()
     lateinit var myListener: OnItemClickListener
 
     interface OnItemClickListener{
@@ -29,16 +32,25 @@ class NotesAdapter: RecyclerView.Adapter<NotesAdapter.ViewHolder>()  {
     }
 
     override fun getItemCount(): Int {
-        return notesList.size
+        return currentList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.noteText.text = notesList[position].noteText
+        holder.noteText.text = currentList[position].noteText
     }
 
-    fun setData(user: List<Note>) {
-        this.notesList = user
-        notifyDataSetChanged()
+//    fun setData(user: List<Note>) {
+//        this.notesList = user
+//        notifyDataSetChanged()
+//    }
+
+    private class DiffCallback : DiffUtil.ItemCallback<Note>() {
+
+        override fun areItemsTheSame(oldItem: Note, newItem: Note) =
+            oldItem.noteId == newItem.noteId
+
+        override fun areContentsTheSame(oldItem: Note, newItem: Note) =
+            oldItem == newItem
     }
 
     inner class ViewHolder(itemView: View, listener: OnItemClickListener): RecyclerView.ViewHolder(itemView){

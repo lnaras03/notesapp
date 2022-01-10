@@ -80,7 +80,7 @@ class AllNotesFragment : Fragment() {
 
         //UserViewModel
         mUserviewModel.allNotes.observe(viewLifecycleOwner, Observer { note ->
-            adapter.setData(note)
+            adapter.submitList(note)
         })
 
     }
