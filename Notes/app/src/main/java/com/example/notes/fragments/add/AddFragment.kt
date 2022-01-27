@@ -1,23 +1,39 @@
 package com.example.notes.fragments.add
 
+import android.app.Activity
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.notes.R
 import com.example.notes.data.Note
 import com.example.notes.data.NoteViewModel
 import com.example.notes.fragments.allnotes.AllNotesFragment
+import java.io.File
+import java.util.jar.Manifest
+
+private const val PERMISSION_CODE = 1001
+private const val IMAGE_CHOOSE = 1000
+private const val REQUEST_CODE = 13
+//private lateinit var filePhoto: File
 
 class AddFragment : Fragment() {
 
     lateinit var fragment: View
     private lateinit var mNoteViewModel: NoteViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -30,8 +46,28 @@ class AddFragment : Fragment() {
         fragment =  inflater.inflate(R.layout.fragment_add, container, false)
 
         setupAddButton()
+        setupCameraButton()
 
         return fragment
+    }
+
+    private fun setupCameraButton() {
+        val cameraButton = fragment.findViewById<Button>(R.id.button_camera)
+        cameraButton.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)==PackageManager.PERMISSION_DENIED){
+                    val permissions = arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                    ActivityCompat.requestPermissions(requireActivity(), permissions, PERMISSION_CODE)
+                }
+            }
+            chooseImageGallery()
+        }
+    }
+
+    private fun chooseImageGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_CHOOSE)
     }
 
     private fun setupAddButton() {
@@ -55,6 +91,35 @@ class AddFragment : Fragment() {
                 transaction.commitAllowingStateLoss()
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when (requestCode) {
+            PERMISSION_CODE -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    chooseImageGallery()
+                } else {
+                    Toast.makeText(requireContext(), "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        val viewImage = fragment.findViewById<ImageView>(R.id.viewImage);
+        viewImage.setImageURI(data?.data)
+//        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
+//            val takenPhoto = BitmapFactory.decodeFile(filePhoto.absolutePath)
+//            viewImage.setImageBitmap(takenPhoto)
+//        }
+//        else {
+//            super.onActivityResult(requestCode, resultCode, data)
+//        }
+
     }
 
 }

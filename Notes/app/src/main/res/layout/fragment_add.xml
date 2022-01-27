@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/add_fragment">
 
     <EditText
@@ -20,6 +20,22 @@
         android:textColor="#090101"
         android:textSize="18sp"
         android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/viewImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/button_camera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/button_border"
+        android:text="@string/gallery"
+        android:textColor="@color/buttonLabel"
+        app:backgroundTint="#FC8019"/>
 
     <Button
         android:id="@+id/button_save"

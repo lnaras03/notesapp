@@ -7,4 +7,6 @@
     <string name="AddButton">Save</string>
     <string name="save_button_detail">Save</string>
     <string name="action_delete">Delete</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
 </resources>

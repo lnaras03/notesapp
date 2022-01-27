@@ -1,5 +1,6 @@
 package com.example.notes.data
 
+import android.widget.ImageView
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -10,5 +11,8 @@ data class Note(
     val noteId: Int = 0,
 
     @ColumnInfo(name = "note_text")
-    val noteText: String
+    val noteText: String,
+
+    @ColumnInfo(name = "note_image")
+    val noteImageView: String
 )
