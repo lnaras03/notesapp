@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -21,11 +22,13 @@ import com.example.notes.R
 import com.example.notes.data.Note
 import com.example.notes.data.NoteViewModel
 import com.example.notes.fragments.allnotes.AllNotesFragment
+import com.example.notes.fragments.allnotes.NotesAdapter
 import java.io.File
 import java.util.jar.Manifest
 
 private const val PERMISSION_CODE = 1001
 private const val IMAGE_CHOOSE = 1000
+private var imageUri: Uri? = null
 private const val REQUEST_CODE = 13
 //private lateinit var filePhoto: File
 
@@ -80,9 +83,9 @@ class AddFragment : Fragment() {
                     "Note is empty, please fill in something to save", Toast.LENGTH_LONG).show()
             }
             else{
-                val note = Note(noteText = noteText.text.toString().trim())
+                val note = Note(noteText = noteText.text.toString().trim(), noteImage = imageUri.toString())
                 mNoteViewModel.insert(note)
-                Toast.makeText(requireContext(), "Added note", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Added note ${imageUri.toString()}", Toast.LENGTH_SHORT).show()
 
                 val manager = parentFragmentManager
                 manager.popBackStack()
@@ -109,9 +112,10 @@ class AddFragment : Fragment() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         val viewImage = fragment.findViewById<ImageView>(R.id.viewImage);
-        viewImage.setImageURI(data?.data)
+        imageUri = intent?.data
+        viewImage.setImageURI(imageUri)
 //        if(requestCode == REQUEST_CODE && resultCode == Activity.RESULT_OK){
 //            val takenPhoto = BitmapFactory.decodeFile(filePhoto.absolutePath)
 //            viewImage.setImageBitmap(takenPhoto)

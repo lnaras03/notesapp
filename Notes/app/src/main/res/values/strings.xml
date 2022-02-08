@@ -9,4 +9,5 @@
     <string name="action_delete">Delete</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
+    <string name="saved_image">Saved Image</string>
 </resources>

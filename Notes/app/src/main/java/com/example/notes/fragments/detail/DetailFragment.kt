@@ -45,7 +45,8 @@ class DetailFragment : Fragment() {
         val saveButton: Button = fragment.findViewById(R.id.save_button)
         mNoteViewModel = ViewModelProvider(this)[NoteViewModel::class.java]
         saveButton.setOnClickListener {
-            val note = Note(noteText = noteText.text.toString().trim(), noteId = bundle.getInt("noteId"))
+            val note = Note(noteText = noteText.text.toString().trim(),
+                noteId = bundle.getInt("noteId"), noteImage = bundle.getString("noteImage"))
             mNoteViewModel.update(note)
             Toast.makeText(requireContext(), "Updated note", Toast.LENGTH_SHORT).show()
 

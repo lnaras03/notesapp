@@ -37,7 +37,7 @@
             android:textColor="#241B1B"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/deleteButton"
+            app:layout_constraintEnd_toStartOf="@+id/savedImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="my notes is too long now what happens to this???" />
@@ -53,5 +53,18 @@
             app:srcCompat="@drawable/ic_baseline_delete_24"
             tools:ignore="VectorDrawableCompat"
             tools:srcCompat="@drawable/ic_baseline_delete_24"/>
+
+        <ImageView
+            android:id="@+id/savedImage"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="4dp"
+            android:contentDescription="@string/saved_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deleteButton"
+            tools:srcCompat="@drawable/ic_launcher_background"
+            app:srcCompat="@drawable/ic_launcher_background"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

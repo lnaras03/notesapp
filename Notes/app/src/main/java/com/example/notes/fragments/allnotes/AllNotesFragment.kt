@@ -24,7 +24,7 @@ class AllNotesFragment : Fragment() {
 
     private lateinit var adapter: NotesAdapter
     private lateinit var mUserviewModel: NoteViewModel
-    lateinit var fragment: View
+    lateinit var fragmentView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,19 +34,19 @@ class AllNotesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        fragment = inflater.inflate(R.layout.fragment_all_notes, container, false)
+    ): View {
+        fragmentView = inflater.inflate(R.layout.fragment_all_notes, container, false)
 
         setupRecyclerView()
         setupAddFab()
 
         // Inflate the layout for this fragment
-        return fragment
+        return fragmentView
 
     }
 
     private fun setupRecyclerView() {
-        val recyclerViewNotes: RecyclerView = fragment.findViewById(R.id.noteRecyclerView)
+        val recyclerViewNotes: RecyclerView = fragmentView.findViewById(R.id.noteRecyclerView)
 
         adapter = NotesAdapter()
         recyclerViewNotes.adapter = adapter
@@ -57,7 +57,9 @@ class AllNotesFragment : Fragment() {
                 val allNotes = mUserviewModel.allNotes.value
                 val selectedNoteDetails = allNotes?.get(position)
 
-                val bundle = bundleOf("noteId" to selectedNoteDetails?.noteId, "noteText" to selectedNoteDetails?.noteText)
+                val bundle = bundleOf("noteId" to selectedNoteDetails?.noteId,
+                    "noteText" to selectedNoteDetails?.noteText,
+                    "noteImage" to selectedNoteDetails?.noteImage)
                 val detailFragment = DetailFragment()
                 detailFragment.arguments = bundle
                 val manager = parentFragmentManager
@@ -87,7 +89,7 @@ class AllNotesFragment : Fragment() {
 
     private fun setupAddFab() {
 
-        val nextFab: FloatingActionButton = fragment.findViewById(R.id.addButton)
+        val nextFab: FloatingActionButton = fragmentView.findViewById(R.id.addButton)
         nextFab.setOnClickListener{
             val manager = parentFragmentManager
             val transaction = manager.beginTransaction()
